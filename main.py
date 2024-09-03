@@ -16,6 +16,7 @@ functions:
 
     * get_name_from_isbn - looks up the name of a book from its ISBN
     * find_most_similar - returns the most similar book
+    * prep_dataset - returns a triple of the datasets
     * main - the main function of the script
 """
 
@@ -75,7 +76,16 @@ def find_most_similar(ratings: pd.DataFrame, book_id: str) -> str:
     return rec_percentages[rec_percentages.index != book_id].iloc[0].name
 
 
-def main():
+def prep_dataset() -> (pd.DataFrame, pd.DataFrame, pd.DataFrame):
+    """
+    Returns a 3-tuple of pd.DataFrames consisting of books, ratings,
+    and users
+
+    Returns
+    -------
+    (pd.DataFrame, pd.DataFrame, pd.DataFrame)
+        A triple of DataFrames of books, ratings, users
+    """
     books = pd.read_csv('dataset/Books.csv')
     ratings = pd.read_csv('dataset/Ratings.csv')
     users = pd.read_csv('dataset/Users.csv')
@@ -88,6 +98,12 @@ def main():
 
     ratings_not_in_books = ratings.index[~ratings['ISBN'].isin(books['ISBN'])]
     ratings.drop(index=ratings_not_in_books, inplace=True)
+
+    return books, ratings, users
+
+
+def main():
+    books, ratings, users = prep_dataset()
 
     while True:
         input_book = input("Enter a book's ISBN:")
