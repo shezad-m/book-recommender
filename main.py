@@ -90,6 +90,8 @@ def prep_dataset() -> (pd.DataFrame, pd.DataFrame, pd.DataFrame):
     ratings = pd.read_csv('dataset/Ratings.csv')
     users = pd.read_csv('dataset/Users.csv')
 
+    # Removes unnecessary columns from the DataFrames and any rows that contain
+    # null values
     books.drop(columns=['Image-URL-S', 'Image-URL-M', 'Image-URL-L'], inplace=True)
     books_na = books.index[(books['Book-Author'].isna()) | (books['Publisher'].isna())]
     books.drop(index=books_na, inplace=True)
