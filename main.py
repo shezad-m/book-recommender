@@ -107,9 +107,14 @@ def main():
 
     while True:
         input_book = input("Enter a book's ISBN:")
-        output_isbn = find_most_similar(ratings, input_book)
-        output_name = get_name_from_isbn(books, output_isbn)
-        print(f'The most similar book is {output_name}')
+        try:
+            input_book_name = get_name_from_isbn(books, input_book)
+            output_isbn = find_most_similar(ratings, input_book)
+            output_name = get_name_from_isbn(books, output_isbn)
+            print(f'If you like "{input_book_name}", then you\'ll like "{output_name}"')
+        except IndexError:
+            print('That book does not exist in the dataset.')
+            continue
 
 
 if __name__ == "__main__":
